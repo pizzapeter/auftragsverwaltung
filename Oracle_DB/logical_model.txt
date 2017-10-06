@@ -1,0 +1,21 @@
+Department(ID,Name);
+
+PermissionLevel(ID,Description);
+
+Employee(ID,firstname,lastname,date_of_birth,departmentID,password,username,permissionID);
+foreign key departmentID references Department(ID);
+foreign key PermissionID refernces PermissionLevel(ID);
+
+Place(ID,description,Spatial_Location);
+
+Task(ID,Beschreibung,finished,PlaceID);
+foreing key PlaceID refernces Place(ID);
+
+
+EmployeeTask(EmployeeID,TaskID);
+
+Material(ID,description,price);
+
+AuftragMaterial(MaterialID,TaskID);
+foreign key MaterialID refernces Material(ID);
+foreign key TaskID refernces Task(ID);
