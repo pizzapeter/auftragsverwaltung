@@ -1,5 +1,7 @@
 # Statusberichte
-
+## 13.10.2017
+- JavaFX Application implementation
+- Create Table Statments
 
 ## 06.10.2017
 - EERD drawn
