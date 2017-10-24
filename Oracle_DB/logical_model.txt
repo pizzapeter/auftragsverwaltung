@@ -1,21 +1,29 @@
 Department(ID,Name);
+primary key(ID);
 
 PermissionLevel(ID,Description);
+primary key(ID);
 
 Employee(ID,firstname,lastname,date_of_birth,departmentID,password,username,permissionID);
+primary key(ID);
 foreign key departmentID references Department(ID);
 foreign key PermissionID refernces PermissionLevel(ID);
 
 Place(ID,description,Spatial_Location);
+primary key(ID);
 
 Task(ID,Beschreibung,finished,PlaceID);
+primary key(ID);
 foreing key PlaceID refernces Place(ID);
 
 
 EmployeeTask(EmployeeID,TaskID);
+primary key(EmployeeID,TaskID);
 
 Material(ID,description,price);
+primary key(ID);
 
 AuftragMaterial(MaterialID,TaskID);
+primary key(MaterialID,TaskID);
 foreign key MaterialID refernces Material(ID);
 foreign key TaskID refernces Task(ID);
