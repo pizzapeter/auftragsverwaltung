@@ -19,13 +19,13 @@
       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <TextField id="tfFirstname" maxWidth="-Infinity" prefHeight="25.0" prefWidth="289.0" GridPane.columnIndex="1" />
-      <TextField id="tfLastname" maxWidth="-Infinity" prefWidth="289.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+      <TextField id="tfFirstname" fx:id="tfFirstname" maxWidth="-Infinity" prefHeight="25.0" prefWidth="289.0" GridPane.columnIndex="1" />
+      <TextField id="tfLastname" fx:id="tfLastname" maxWidth="-Infinity" prefWidth="289.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
       <TextField id="tfJob" maxWidth="-Infinity" prefWidth="289.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
       <Label id="lblFirstname" alignment="CENTER" maxWidth="1.7976931348623157E308" text="Firstname" textAlignment="CENTER" />
       <Label id="lblLastname" alignment="CENTER" maxWidth="1.7976931348623157E308" text="Lastname" textAlignment="CENTER" GridPane.rowIndex="1" />
       <Label id="lblJob" alignment="CENTER" maxWidth="1.7976931348623157E308" text="Job" GridPane.rowIndex="2" />
-      <Button id="btnCancel" fx:id="btnCancel" mnemonicParsing="false" onAction="#Cancel" text="Cancel" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
-      <Button id="btnOK" mnemonicParsing="false" text="OK" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+      <Button id="btnCancel" fx:id="btnCancel" mnemonicParsing="false" onAction="#OnCancel" text="Cancel" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+      <Button id="btnOK" fx:id="btnOK" mnemonicParsing="false" onAction="#OnOK" text="OK" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
    </children>
 </GridPane>
