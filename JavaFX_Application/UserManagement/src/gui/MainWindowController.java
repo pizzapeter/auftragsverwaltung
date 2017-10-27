@@ -24,8 +24,9 @@ public class MainWindowController {
     public void initialize() {
         this.listView.getItems().addAll(UserManager.getInstance().getAllUsers());
         this.listView.getItems().add(new User("hans-peter", "peter-hans", "10"));
-        this.listView.getItems().add(new User("julian", "kogseder", "12"));
+        this.listView.getItems().add(new User("hans-peter", "peter-hans", "10"));
         this.initContextMenu();
+        System.out.println("ctx initialized");
     }
 
     @FXML
@@ -37,17 +38,35 @@ public class MainWindowController {
         }
     }
 
+
     private void initContextMenu() {
         this.contextMenu = new ContextMenu();
-        MenuItem mItemNewUser = new MenuItem("New User");
-        mItemNewUser.setOnAction(e -> {
+
+        MenuItem mNewUser = new MenuItem("new user");
+        mNewUser.setOnAction(e -> {
             try {
+
                 this.createNewUser();
-            } catch (IOException e1) {
-                e1.printStackTrace();
+            } catch (IOException ioEx) {
+                ioEx.printStackTrace();
             }
         });
+
+        MenuItem mDeleteUser = new MenuItem("delete user");
+        mDeleteUser.setOnAction(e->{
+            User u = this.listView.getSelectionModel().getSelectedItem();
+            this.deleteUser();
+        });
+
+        MenuItem mEditItem = new MenuItem(("edit item"));
+        mEditItem.setOnAction(e->{
+
+        });
+
+        this.contextMenu.getItems().addAll(mNewUser, mDeleteUser);
+        this.listView.setContextMenu(this.contextMenu);
     }
+
 
     private void createNewUser() throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("NewUserWindow.fxml"));
@@ -59,5 +78,10 @@ public class MainWindowController {
         this.listView.getItems().clear();
         this.listView.getItems().addAll(UserManager.getInstance().getAllUsers());
         System.out.println("new user created");
+    }
+
+    private void deleteUser(){
+        User u = this.listView.getSelectionModel().getSelectedItem();
+        this.listView.getItems().remove(u);
     }
 }
