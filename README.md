@@ -1,4 +1,12 @@
 # Statusberichte
+
+## 20.10.2017
+- JavaFX GUI Design
+- JavaFX functionality implementation
+- password encryption in oracle db
+- corrected data model
+- started with REST API
+
 ## 13.10.2017
 - JavaFX Application implementation
 - Create Table Statments
