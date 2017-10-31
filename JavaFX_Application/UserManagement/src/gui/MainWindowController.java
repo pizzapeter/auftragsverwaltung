@@ -12,6 +12,7 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.time.LocalDate;
 
 public class MainWindowController {
     @FXML
@@ -23,8 +24,8 @@ public class MainWindowController {
     @FXML
     public void initialize() {
         this.listView.getItems().addAll(UserManager.getInstance().getAllUsers());
-        this.listView.getItems().add(new User("hans-peter", "peter-hans", "10"));
-        this.listView.getItems().add(new User("hans-peter", "peter-hans", "10"));
+        this.listView.getItems().add(new User("hans-peter", "peter-hans", "10", LocalDate.now()));
+        this.listView.getItems().add(new User("hans-peter", "peter-hans", "10", LocalDate.now()));
         this.initContextMenu();
         System.out.println("ctx initialized");
     }
@@ -82,6 +83,10 @@ public class MainWindowController {
 
     private void deleteUser(){
         User u = this.listView.getSelectionModel().getSelectedItem();
-        this.listView.getItems().remove(u);
+        try{
+            this.listView.getItems().remove(u);
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
     }
 }

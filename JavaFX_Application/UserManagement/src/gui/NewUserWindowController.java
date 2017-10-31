@@ -6,12 +6,12 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-import java.util.UUID;
-
 public class NewUserWindowController {
+
     @FXML
     private Button btnCancel;
     @FXML
@@ -20,6 +20,8 @@ public class NewUserWindowController {
     private TextField tfFirstname;
     @FXML
     private TextField tfLastname;
+    @FXML
+    private DatePicker datePicker;
 
     @FXML
     public void OnCancel(ActionEvent actionEvent) {
@@ -35,7 +37,7 @@ public class NewUserWindowController {
 
         String id = "asdf";
 
-        User newUser = new User(tfFirstname.getText(), tfLastname.getText(), id);
+        User newUser = new User(tfFirstname.getText(), tfLastname.getText(), id, datePicker.getValue());
         try {
             UserManager.getInstance().createUser(newUser);
             System.out.println(newUser.toString());

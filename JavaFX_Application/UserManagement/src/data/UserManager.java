@@ -15,7 +15,7 @@ public class UserManager { // TODO: 20.10.2017 replace user methods with rest ca
     }
 
     private UserManager() {
-        allUsers = new HashSet<User>();
+        allUsers = new HashSet<>();
     }
 
     public void createUser(User newUser) throws Exception {
@@ -23,7 +23,7 @@ public class UserManager { // TODO: 20.10.2017 replace user methods with rest ca
         if (this.doesUserExist(newUser)) {
             throw new Exception("User does already exist");
         }
-        this.allUsers.add(new User(newUser.getFirstname(), newUser.getLastname(), newUser.getId()));
+        this.allUsers.add(new User(newUser.getFirstname(), newUser.getLastname(), newUser.getId(), newUser.getDateOfBirth()));
     }
 
     public void deleteUser(User userToDelete) throws Exception {

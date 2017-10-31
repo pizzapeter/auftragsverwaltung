@@ -1,10 +1,16 @@
 package data;
 
+import java.time.LocalDate;
+
 public class User {
 
     private String id;
     private String firstname;
     private String lastname;
+    private LocalDate dateOfBirth;
+    private String department;
+    private String username;
+
 
     public String getId() {
         return id;
@@ -18,10 +24,23 @@ public class User {
         return lastname;
     }
 
-    public User(String firstname, String lastname, String id) {
+    public LocalDate getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public String getDepartment() {
+        return department;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public User(String firstname, String lastname, String id, LocalDate dateOfBirth) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.id = id;
+        this.dateOfBirth = dateOfBirth;
     }
 
     @Override
