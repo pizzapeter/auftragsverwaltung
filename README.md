@@ -1,4 +1,8 @@
 # Statusberichte
+## 27.10.2017
+- REST API
+- JavaFX GUI
+
 
 ## 20.10.2017
 - JavaFX GUI Design
