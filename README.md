@@ -1,4 +1,8 @@
 # Statusberichte
+## 10.11.2017
+- REST API
+- WPF GUI
+
 ## 27.10.2017
 - REST API
 - JavaFX GUI
