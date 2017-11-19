@@ -4,10 +4,7 @@ import data.User;
 import data.UserManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 public class NewUserWindowController {
@@ -22,6 +19,9 @@ public class NewUserWindowController {
     private TextField tfLastname;
     @FXML
     private DatePicker datePicker;
+    @FXML
+    private ComboBox cbxDepartment;
+
 
     @FXML
     public void OnCancel(ActionEvent actionEvent) {
@@ -35,17 +35,35 @@ public class NewUserWindowController {
         Stage stage;
         stage = (Stage) btnOK.getScene().getWindow();
 
+
         String id = "asdf";
 
-        User newUser = new User(tfFirstname.getText(), tfLastname.getText(), id, datePicker.getValue());
-        try {
-            UserManager.getInstance().createUser(newUser);
-            System.out.println(newUser.toString());
-            stage.close();
-        } catch (Exception e) {
+        if (checkInputFields()) {
+
+            User newUser = new User(tfFirstname.getText().trim(), tfLastname.getText().trim(), id.trim(), datePicker.getValue());
+            try {
+                UserManager.getInstance().createUser(newUser);
+                System.out.println(newUser.toString());
+                stage.close();
+            } catch (Exception e) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setHeaderText(e.getMessage());
+                alert.showAndWait();
+            }
+        } else {
             Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setHeaderText(e.getMessage());
+            alert.setHeaderText("Please fill in all the input fields");
             alert.showAndWait();
         }
+    }
+
+    private boolean checkInputFields() {
+        boolean isOK = false;
+        if (tfFirstname.getText().trim() == "" || tfLastname.getText().trim() == "" || datePicker.getValue() == null) {
+            isOK = false;
+        } else {
+            isOK = true;
+        }
+        return isOK;
     }
 }

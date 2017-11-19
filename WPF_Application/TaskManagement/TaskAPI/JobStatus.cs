@@ -4,8 +4,10 @@ using System.Text;
 
 namespace TaskAPI
 {
-    public class Place
+    public enum JobStatus : int
     {
-        // TODO implement class
+        InProgress,
+        NotFinished,
+        Finished
     }
 }

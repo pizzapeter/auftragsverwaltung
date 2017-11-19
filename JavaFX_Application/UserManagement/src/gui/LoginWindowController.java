@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Arrays;
+
 
 public class LoginWindowController {
     @FXML
@@ -31,12 +31,22 @@ public class LoginWindowController {
             passwd = digest.digest("password".getBytes(StandardCharsets.UTF_8));
             byte[] hash = digest.digest(passwordField.getText().getBytes(StandardCharsets.UTF_8));
             passwordField.clear();
-            if (Arrays.equals(passwd, hash)) {
+          //  if (passwordField.getText() == "") {
                 System.out.println("hashing worked");
-            }
+                lblStatus.setTextFill(Color.GREEN);
+                lblStatus.setText("Logging you in");
+                loadMainWindow();
+            /*} else {
+                lblStatus.setTextFill(Color.RED);
+                lblStatus.setText("Wrong password!");
+            }*/
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
+
+    }
+
+    private void loadMainWindow() {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("MainWindow.fxml"));
             Stage mainWindow = new Stage();
@@ -52,7 +62,6 @@ public class LoginWindowController {
             e.printStackTrace();
         }
     }
-
 
     private boolean checkPassword() {
         boolean result = false;

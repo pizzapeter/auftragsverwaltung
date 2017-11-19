@@ -5,50 +5,68 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TaskManagement"
         mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
         Title="Task Management" Height="500" Width="800">
+
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="60*" />
+            <ColumnDefinition Width="62*" />
+            <ColumnDefinition Width="61*" />
+            <ColumnDefinition Width="62*" />
+            <ColumnDefinition Width="60*" />
+            <ColumnDefinition Width="61*" />
+            <ColumnDefinition Width="62*" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="50" />
+            <ColumnDefinition Width="61*" />
+            <ColumnDefinition Width="62*" />
+            <ColumnDefinition Width="60*" />
+            <ColumnDefinition Width="63*" />
+            <ColumnDefinition Width="38*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="31*" />
+            <RowDefinition Height="32*" />
+            <RowDefinition Height="32*" />
+            <RowDefinition Height="30*" />
+            <RowDefinition Height="32*" />
+            <RowDefinition Height="33*" />
+            <RowDefinition Height="31*" />
+            <RowDefinition Height="30" />
+            <RowDefinition Height="30" />
         </Grid.RowDefinitions>
-        <ListView x:Name="listView" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="8" Grid.RowSpan="16"/>
-        <Label x:Name="lblTaskName" Content="sample name" Grid.Column="9" Grid.Row="0" Grid.ColumnSpan="8" FontSize="14"/>
-        <Label x:Name="lblTaskStatus" Content="in progress" Grid.Column="9" Grid.Row="1" Grid.ColumnSpan="8" />
-        <Label x:Name="lblTaskDescription" Content="sample description" Grid.Column="9" Grid.Row="2" Grid.ColumnSpan="8" Grid.RowSpan="4"/>
-        <Label x:Name="lblEmployeeName" Content="Achmed Lee" Grid.Column="9" Grid.Row="6" Grid.ColumnSpan="8" />
-        
+        <ListView x:Name="listView" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="8" Grid.RowSpan="16" SelectionChanged="listView_SelectionChanged"/>
+        <Label x:Name="lblJobName" Content="TASK NAME" Grid.Column="8" Grid.Row="1" Grid.ColumnSpan="3" FontSize="14" FontWeight="Bold"/>
+        <!-- <Label x:Name="lblTaskName" Content="sample name" Grid.Column="9" Grid.Row="2" Grid.ColumnSpan="4" FontSize="14"/> -->
+        <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Grid.Column="8" Grid.Row="2" Grid.ColumnSpan="7"/>
+        <Label Content="Status" Grid.Column="8" Grid.Row="3" Grid.ColumnSpan="3" Height="26" FontSize="14"/>
+        <Label x:Name="lblTaskStatus" Content="in progress" Grid.Column="11" Grid.Row="3" Grid.ColumnSpan="4" FontSize="14"/>
+        <Label Content="Description" Grid.Column="8" Grid.Row="4" Grid.ColumnSpan="3" FontSize="14"/>
+        <Label x:Name="lblTaskDescription" Content="sample description" Grid.Column="8" Grid.Row="5" Grid.ColumnSpan="7" FontSize="14"/>
+        <Label Content="Employee" Grid.Column="8" Grid.Row="6" Grid.ColumnSpan="3" FontSize="14"/>
+        <Label x:Name="lblEmployeeName" Content="Achmed Lee" Grid.Column="11" Grid.Row="6" Grid.ColumnSpan="4" FontSize="14"/>
+        <Menu Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="16">
+            <MenuItem Header="_File" >
+                <MenuItem x:Name="MItemNewTask" Header="New Task" Click="MItemNewTask_Click"/>
+                <MenuItem x:Name="MItemExit" Header="Exit" Click="MItemExit_Click"/>
+            </MenuItem>
+            <MenuItem x:Name="MItemHelp" Header="Help">
+                <MenuItem x:Name="MItemAbout" Header="About"/>
+            </MenuItem>
+        </Menu>
+        <Button x:Name="btnDeleteJob" Grid.Row="16" Grid.Column="8" Click="btnDeleteJob_Click" IsEnabled="False">
+            <Image Source="icons8-trash.png"/>
+        </Button>
 
     </Grid>
 </Window>

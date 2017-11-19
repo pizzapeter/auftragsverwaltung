@@ -1,21 +1,22 @@
 package data;
 
-import java.util.HashSet;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 public class UserManager { // TODO: 20.10.2017 replace user methods with rest calls
     private static UserManager ourInstance = new UserManager();
-    private HashSet<User> allUsers;
+    private ObservableList<User> allUsers;
 
     public static UserManager getInstance() {
         return ourInstance;
     }
 
-    public HashSet<User> getAllUsers() {
+    public ObservableList<User> getAllUsers() {
         return allUsers;
     }
 
     private UserManager() {
-        allUsers = new HashSet<>();
+        allUsers = FXCollections.observableArrayList();
     }
 
     public void createUser(User newUser) throws Exception {
@@ -27,7 +28,7 @@ public class UserManager { // TODO: 20.10.2017 replace user methods with rest ca
     }
 
     public void deleteUser(User userToDelete) throws Exception {
-        // do some rest call
+        this.allUsers.remove(userToDelete);
     }
 
     public void updateUser(User userToUpdate) throws Exception {
