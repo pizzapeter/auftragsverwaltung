@@ -7,6 +7,7 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -14,74 +15,80 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import org.controlsfx.control.textfield.CustomTextField?>
 
-<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="411.0" prefWidth="624.0"
-            stylesheets="@main.css" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="gui.MainWindowController">
+<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="600.0" prefWidth="1000.0" stylesheets="@main.css" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.MainWindowController">
     <top>
         <MenuBar BorderPane.alignment="CENTER">
             <menus>
                 <Menu mnemonicParsing="false" text="File">
                     <items>
-                        <MenuItem mnemonicParsing="false" onAction="#OnCreateNewUser" text="New"/>
-                        <MenuItem mnemonicParsing="false" text="Save"/>
-                        <MenuItem mnemonicParsing="false" text="Close"/>
+                        <MenuItem mnemonicParsing="false" onAction="#OnCreateNewUser" text="New" />
+                        <MenuItem mnemonicParsing="false" text="Save" />
+                        <MenuItem mnemonicParsing="false" text="Close" />
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Edit">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="Delete"/>
+                        <MenuItem mnemonicParsing="false" text="Delete" />
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Help">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="About"/>
+                        <MenuItem mnemonicParsing="false" text="About" />
                     </items>
                 </Menu>
             </menus>
         </MenuBar>
     </top>
-    <left>
-        <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="-Infinity"
-                    prefHeight="386.0" prefWidth="300.0" BorderPane.alignment="CENTER">
-            <top>
-                <ToolBar fx:id="searchbar" maxHeight="-Infinity" prefHeight="10.0" prefWidth="200.0"
-                         BorderPane.alignment="CENTER">
-                    <items>
-                        <Button fx:id="closeSearch" onAction="#onCloseSearch" styleClass="buttonCloseSearch">
-                            <graphic>
-                                <FontAwesomeIconView styleClass="buttonSearchCloseIcon"/>
-                            </graphic>
-                        </Button>
-                        <CustomTextField fx:id="searchTextField" maxWidth="1.7976931348623157E308" prefHeight="25.0"
-                                         prefWidth="241.0" promptText="Search">
-                            <left>
-                                <Label styleClass="searchBoxLabel">
+    <center>
+        <SplitPane dividerPositions="0.5" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <items>
+                <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefHeight="386.0" prefWidth="300.0">
+                    <top>
+                        <ToolBar fx:id="searchbar" maxHeight="-Infinity" prefHeight="10.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                            <items>
+                                <Button fx:id="closeSearch" onAction="#onCloseSearch" styleClass="buttonCloseSearch">
                                     <graphic>
-                                        <FontAwesomeIconView styleClass="searchBoxLabelIcon"/>
+                                        <FontAwesomeIconView styleClass="buttonSearchCloseIcon" />
                                     </graphic>
-                                </Label>
-                            </left>
-                        </CustomTextField>
-                    </items>
-                </ToolBar>
-            </top>
-            <center>
-                <ListView fx:id="listView" prefHeight="351.0" prefWidth="325.0" BorderPane.alignment="CENTER"/>
-            </center>
-        </BorderPane>
-    </left>
-    <right>
-        <GridPane alignment="center" hgap="10" prefHeight="269.0" prefWidth="61.0" vgap="10"
-                  BorderPane.alignment="CENTER">
-            <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0"/>
-                <RowConstraints minHeight="10.0" prefHeight="30.0"/>
-                <RowConstraints minHeight="10.0" prefHeight="30.0"/>
-            </rowConstraints>
-            <columnConstraints>
-                <ColumnConstraints minWidth="10.0" prefWidth="100.0"/>
-                <ColumnConstraints minWidth="10.0" prefWidth="100.0"/>
-            </columnConstraints>
-        </GridPane>
-    </right>
+                                </Button>
+                                <CustomTextField fx:id="searchTextField" maxWidth="1.7976931348623157E308" prefHeight="25.0" prefWidth="241.0" promptText="Search">
+                                    <left>
+                                        <Label styleClass="searchBoxLabel">
+                                            <graphic>
+                                                <FontAwesomeIconView styleClass="searchBoxLabelIcon" />
+                                            </graphic>
+                                        </Label>
+                                    </left>
+                                </CustomTextField>
+
+                                <Button fx:id="btnRefresh" onAction="#onRefresh" styleClass="buttonRefreshList">
+                                    <graphic>
+                                        <FontAwesomeIconView styleClass="buttonRefreshListIcon"/>
+                                    </graphic>
+                                </Button>
+                            </items>
+                        </ToolBar>
+                    </top>
+                    <center>
+                        <ListView fx:id="listView" prefHeight="351.0" prefWidth="325.0" BorderPane.alignment="CENTER" />
+                    </center>
+                </BorderPane>
+            <BorderPane>
+               <left>
+                      <GridPane alignment="center" hgap="10" prefHeight="269.0" prefWidth="617.0" vgap="10" BorderPane.alignment="CENTER">
+                          <rowConstraints>
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" />
+                          </rowConstraints>
+                          <columnConstraints>
+                              <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                      </GridPane>
+               </left>
+            </BorderPane>
+            </items>
+        </SplitPane>
+    </center>
 </BorderPane>

@@ -1,23 +1,25 @@
 package gui;
 
+import data.RESTService;
 import data.User;
 import data.UserManager;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import org.controlsfx.control.textfield.CustomTextField;
 
 import java.io.IOException;
-import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class MainWindowController {
 
@@ -27,6 +29,7 @@ public class MainWindowController {
 
     @FXML
     private CustomTextField searchTextField;
+
     //endregion
 
     //region private vars
@@ -36,27 +39,36 @@ public class MainWindowController {
 
     @FXML
     public void initialize() {
-        try {
-            UserManager.getInstance().createUser(new User("hans", "peter", "10", LocalDate.now()));
-            UserManager.getInstance().createUser(new User("hans", "wurst", "11", LocalDate.now()));
-            UserManager.getInstance().createUser(new User("Juergen", "peter", "12", LocalDate.now()));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        Thread t = new Thread(()->{
+            showLoading(true);
+            loadAllUser();
+            showLoading(false);
+        });
+        t.start();
+
 
         this.listView.setItems(UserManager.getInstance().getAllUsers());
         this.initContextMenu();
         this.addKeyListener();
+        this.listView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            User u = listView.getSelectionModel().getSelectedItem();
+            if (u != null) {
+
+                System.out.println("item selected");
+            }
+        });
+    }
+
+    private void showLoading(boolean b) {
 
 
-        System.out.println("ctx initialized");
     }
 
     @FXML
     public void OnCreateNewUser() {
         try {
             createNewUser();
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -128,6 +140,16 @@ public class MainWindowController {
         newUserWindow.setTitle("Create new User");
         newUserWindow.showAndWait();
         System.out.println("new user created");
+        loadAllUser();
+    }
+
+    private void loadAllUser(){
+        try {
+            ArrayList<User> all = RESTService.getInstance().FetchAllUsers();
+            UserManager.getInstance().setAllUsers(all);
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
     }
 
     private void deleteUser() {
@@ -151,5 +173,9 @@ public class MainWindowController {
 
     private void setItemSource(ObservableList<User> itemSource) {
         this.listView.setItems((itemSource));
+    }
+
+    public void onRefresh() {
+        loadAllUser();
     }
 }

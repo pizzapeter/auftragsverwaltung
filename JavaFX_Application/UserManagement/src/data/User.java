@@ -1,15 +1,13 @@
 package data;
 
-import java.time.LocalDate;
-
 public class User {
 
     private String id;
     private String firstname;
     private String lastname;
-    private LocalDate dateOfBirth;
+    private String dateOfBirth;
+    private String permissionLevel;
     private String department;
-    private String username;
 
 
     public String getId() {
@@ -24,7 +22,7 @@ public class User {
         return lastname;
     }
 
-    public LocalDate getDateOfBirth() {
+    public String getDateOfBirth() {
         return dateOfBirth;
     }
 
@@ -32,15 +30,17 @@ public class User {
         return department;
     }
 
-    public String getUsername() {
-        return username;
+    public String getPermissionLevel() {
+        return permissionLevel;
     }
 
-    public User(String firstname, String lastname, String id, LocalDate dateOfBirth) {
+    public User(String id, String firstname, String lastname, String dateofBirth, String permissionLevel, String department) {
+        this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
-        this.id = id;
-        this.dateOfBirth = dateOfBirth;
+        this.dateOfBirth = dateofBirth;
+        this.permissionLevel = permissionLevel;
+        this.department = department;
     }
 
     @Override

@@ -1,5 +1,6 @@
 package gui;
 
+import data.RESTService;
 import data.User;
 import data.UserManager;
 import javafx.event.ActionEvent;
@@ -19,8 +20,7 @@ public class NewUserWindowController {
     private TextField tfLastname;
     @FXML
     private DatePicker datePicker;
-    @FXML
-    private ComboBox cbxDepartment;
+
 
 
     @FXML
@@ -35,14 +35,11 @@ public class NewUserWindowController {
         Stage stage;
         stage = (Stage) btnOK.getScene().getWindow();
 
-
-        String id = "asdf";
-
         if (checkInputFields()) {
 
-            User newUser = new User(tfFirstname.getText().trim(), tfLastname.getText().trim(), id.trim(), datePicker.getValue());
+            User newUser = new User("42", tfFirstname.getText().trim(), tfLastname.getText().trim(), "25.01.2000", "1", "Test Deparment");
             try {
-                UserManager.getInstance().createUser(newUser);
+                RESTService.getInstance().PostUser(newUser);
                 System.out.println(newUser.toString());
                 stage.close();
             } catch (Exception e) {
@@ -57,13 +54,18 @@ public class NewUserWindowController {
         }
     }
 
+    // 1 - chief
+    // 2 - user
+
+
     private boolean checkInputFields() {
-        boolean isOK = false;
-        if (tfFirstname.getText().trim() == "" || tfLastname.getText().trim() == "" || datePicker.getValue() == null) {
-            isOK = false;
-        } else {
-            isOK = true;
-        }
+        boolean isOK = true
+                ;
+//        if (tfFirstname.getText().trim() == "" || tfLastname.getText().trim() == "" || datePicker.getValue() == null) {
+//            isOK = false;
+//        } else {
+//            isOK = true;
+//        }
         return isOK;
     }
 }

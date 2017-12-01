@@ -3,6 +3,8 @@ package data;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.util.ArrayList;
+
 public class UserManager { // TODO: 20.10.2017 replace user methods with rest calls
     private static UserManager ourInstance = new UserManager();
     private ObservableList<User> allUsers;
@@ -20,11 +22,11 @@ public class UserManager { // TODO: 20.10.2017 replace user methods with rest ca
     }
 
     public void createUser(User newUser) throws Exception {
-        // do some rest call
         if (this.doesUserExist(newUser)) {
             throw new Exception("User does already exist");
         }
-        this.allUsers.add(new User(newUser.getFirstname(), newUser.getLastname(), newUser.getId(), newUser.getDateOfBirth()));
+        this.allUsers.add(new User(newUser.getId(), newUser.getFirstname(), newUser.getLastname(),
+                newUser.getDateOfBirth(), newUser.getPermissionLevel(), newUser.getDepartment()));
     }
 
     public void deleteUser(User userToDelete) throws Exception {
@@ -34,6 +36,15 @@ public class UserManager { // TODO: 20.10.2017 replace user methods with rest ca
     public void updateUser(User userToUpdate) throws Exception {
         // do some rest call
     }
+
+    public void setAllUsers(ArrayList<User> allUsers) throws Exception {
+        this.allUsers.clear();
+        for (User u :
+                allUsers) {
+            UserManager.getInstance().createUser(u);
+        }
+    }
+
 
     private boolean doesUserExist(User toCheck) {
         boolean doesExist = true;

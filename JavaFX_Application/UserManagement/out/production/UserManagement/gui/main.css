@@ -1,6 +1,7 @@
 .searchBoxLabel {
     -fx-padding: 0 2 0 7;
 }
+
 .searchBoxLabelIcon {
     -glyph-size: 13;
     -glyph-name: SEARCH;
@@ -10,3 +11,25 @@
     -glyph-size: 15;
     -glyph-name: CLOSE;
 }
+
+.buttonCloseSearch {
+    -fx-background-color: transparent;
+}
+
+.buttonCloseSearch:pressed {
+    -fx-background-color: grey;
+}
+
+.buttonRefreshList{
+    -fx-background-color: transparent;
+}
+
+.buttonRefreshList:pressed{
+    -fx-background-color: grey;
+}
+
+.buttonRefreshListIcon{
+    -glyph-size: 15;
+    -glyph-name: REFRESH;
+}
+
