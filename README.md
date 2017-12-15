@@ -1,4 +1,16 @@
 # Statusberichte
+## 01.12.2017
+ - REST API
+ - C# Logic  
+
+## 24.11.2017
+ - REST API
+ - JavaFX Logic
+
+## 17.11.2017
+ - REST API
+ - JavaFX Logic
+
 ## 10.11.2017
 - REST API
 - WPF GUI
