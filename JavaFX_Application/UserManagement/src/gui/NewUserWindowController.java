@@ -37,7 +37,7 @@ public class NewUserWindowController {
 
         if (checkInputFields()) {
 
-            User newUser = new User("42", tfFirstname.getText().trim(), tfLastname.getText().trim(), "25.01.2000", "1", "Test Deparment");
+            User newUser = new User(42, tfFirstname.getText().trim(), tfLastname.getText().trim(), "25.01.2000", 1, "Test Deparment");
             try {
                 RESTService.getInstance().PostUser(newUser);
                 System.out.println(newUser.toString());

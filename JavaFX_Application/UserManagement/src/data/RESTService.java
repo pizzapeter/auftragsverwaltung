@@ -1,19 +1,18 @@
 package data;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 public class RESTService {
@@ -24,25 +23,24 @@ public class RESTService {
         return ourInstance;
     }
 
-    public User FetchUserByID(int id) throws Exception {
-        String url = "userbyid/" + Integer.toString(id);
-        String fetchedData = fetchData(url);
-        User fetchedUser = parseJSON(fetchedData).get(0);
-
-        return fetchedUser;
-    }
 
     public ArrayList<User> FetchAllUsers() throws Exception {
+        Gson gson = new GsonBuilder().create();
         String url = "users";
-        String JSONString = fetchData(url);
-        return parseJSON(JSONString);
+        List<User> allUsers;
+
+        String fetchedData = fetchData(url);
+
+        User[] userArray = gson.fromJson(fetchedData, User[].class);
+        allUsers = new ArrayList<>(Arrays.asList(userArray));
+        return (ArrayList<User>) allUsers;
     }
 
 
     private String fetchData(String u) throws Exception {
         URL url;
         int responseCode;
-        StringBuilder sb = null;
+        StringBuilder sb;
 
         url = new URL(RESTUrl + u);
 
@@ -67,63 +65,42 @@ public class RESTService {
         return sb.toString();
     }
 
-    private ArrayList<User> parseJSON(String json) {
-        JSONParser parser = new JSONParser();
-        ArrayList<User> ret = null;
-
-        try {
-            Object obj = parser.parse(json);
-
-            JSONArray jsonArray = (JSONArray) obj;
-            System.out.println(jsonArray.size());
-
-            ret = new ArrayList<>();
-
-            for (int i = 0; i < jsonArray.size(); i++) {
-                JSONObject jsonObject = (JSONObject) jsonArray.get(i);
-                ret.add(parseJSONObject(jsonObject));
-            }
-        } catch (Exception ex) {
-            System.out.println(ex.getMessage());
-        }
-
-        return ret;
-    }
-
-    private User parseJSONObject(JSONObject obj) throws Exception {
-        return new User(obj.get("id").toString(), obj.get("firstname").toString(), obj.get("lastname").toString(), obj.get("birthday").toString(),
-                obj.get("permissionLevel").toString(), obj.get("department").toString());
-    }
 
     public void PostUser(User u) throws Exception {
-        String ur = RESTUrl + "createUSER";
-        String urlParameters = "firstname=" + u.getFirstname()
-                + "&lastname=" + u.getLastname()
-                + "&date_of_birth=" + u.getDateOfBirth()
-                + "&permissionLevelID=" + u.getPermissionLevel()
-                + "&departmentName=" + u.getDepartment()
-                + "&password=hallo"
-                + "&username=BATMAN";
+        String ur = RESTUrl + "createUser";
+        String ret = "";
 
+        HttpPost httpPost = new HttpPost(ur);
+        List<BasicNameValuePair> params = new ArrayList<>();
 
-        HttpClient httpClient = HttpClients.createDefault();
-        HttpPost post = new HttpPost(ur);
-        ArrayList<BasicNameValuePair> params = new ArrayList<>();
         params.add(new BasicNameValuePair("firstname", u.getFirstname()));
         params.add(new BasicNameValuePair("lastname", u.getLastname()));
-        params.add(new BasicNameValuePair("id", u.getId()));
-
-        post.setEntity(new UrlEncodedFormEntity(params, "UTF-8"));
-
-        HttpResponse response = httpClient.execute(post);
-        HttpEntity entity = response.getEntity();
-
-        System.out.println("response: " + response.toString());
+        params.add(new BasicNameValuePair("departmentName", u.getDepartment()));
+        params.add(new BasicNameValuePair(" dateOfBirth", u.getDateOfBirth()));
+        params.add(new BasicNameValuePair("permissionLevelID", String.valueOf(u.getPermissionLevel())));
+        params.add(new BasicNameValuePair("password", u.getPassword())));
 
 
-        //  OutputStreamWriter wr = new OutputStreamWriter()
+        URL url = new URL(ur);
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("POST");
+        conn.setRequestProperty("Content-Type", "application/json");
+        conn.setDoOutput(true);
+        String input = "{\"ID\":1,\"Namen\":\"Traingsstadion\",\"ClubID\":1,\"StadiumSize\":100}";
 
+        Gson gson = new GsonBuilder().create();
+        gson.toJson(u);
 
+        OutputStream os = conn.getOutputStream();
+        os.write(input.getBytes());
+        BufferedReader br = new BufferedReader(new InputStreamReader(
+                (conn.getInputStream())));
+        String output;
+        while ((output = br.readLine()) != null) {
+            ret = output;
+        }
+
+        conn.disconnect();
     }
 
     public void DeleteUser(String id) throws Exception {

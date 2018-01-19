@@ -38,7 +38,7 @@ public class UserManager { // TODO: 20.10.2017 replace user methods with rest ca
     }
 
     public void setAllUsers(ArrayList<User> allUsers) throws Exception {
-        this.allUsers.clear();
+        this.allUsers = FXCollections.observableArrayList();
         for (User u :
                 allUsers) {
             UserManager.getInstance().createUser(u);

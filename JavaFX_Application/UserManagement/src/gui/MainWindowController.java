@@ -43,9 +43,9 @@ public class MainWindowController {
             showLoading(true);
             loadAllUser();
             showLoading(false);
+            this.listView.setItems(UserManager.getInstance().getAllUsers());
         });
         t.start();
-
 
         this.listView.setItems(UserManager.getInstance().getAllUsers());
         this.initContextMenu();
@@ -53,7 +53,6 @@ public class MainWindowController {
         this.listView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             User u = listView.getSelectionModel().getSelectedItem();
             if (u != null) {
-
                 System.out.println("item selected");
             }
         });
