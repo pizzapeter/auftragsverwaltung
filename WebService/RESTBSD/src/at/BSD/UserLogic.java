@@ -57,7 +57,7 @@ public class UserLogic extends AbstractLogic {
 			Statement statement = db.getCon().createStatement();
 			rs = statement.executeQuery(selectTableSQL);
 			while (rs.next()) {
-				Employee p = new Employee(rs.getInt("id"),rs.getObject("firstname").toString(), rs.getObject("lastname").toString(), rs.getObject("departmentName").toString(), "", "", rs.getInt("permissionLevelID"),rs.getObject("DATE_OF_BIRTH").toString());
+				Employee p = new Employee(rs.getObject("firstname").toString(), rs.getObject("lastname").toString(), rs.getObject("departmentName").toString(), "", "", rs.getInt("permissionLevelID"),rs.getObject("DATE_OF_BIRTH").toString());
 				employees.add(p);
 			}
 			db.getCon().close();
@@ -80,7 +80,7 @@ public class UserLogic extends AbstractLogic {
 			ResultSet rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
-				e = new Employee(rs.getInt("id"),rs.getObject("firstname").toString(), rs.getObject("lastname").toString(), rs.getObject("departmentID").toString(), null,null, rs.getInt("permissionLevelID"), rs.getObject("DATE_OF_BIRTH").toString());
+				e = new Employee(rs.getObject("firstname").toString(), rs.getObject("lastname").toString(), rs.getObject("departmentID").toString(), null,null, rs.getInt("permissionLevelID"), rs.getObject("DATE_OF_BIRTH").toString());
 				employees.add(e);
 			}
 			db.getCon().close();

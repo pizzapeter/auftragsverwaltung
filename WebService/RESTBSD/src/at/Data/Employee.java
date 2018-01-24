@@ -10,14 +10,12 @@ public class Employee {
 	public String password;
 	public int permissonLevelID;
 	public String date_of_birth;
-	public int ID;
+	public String id;
 	
 	
-	
-	public Employee(int ID,String firstname, String lastname, String departmentName, String username, String password,
+	public Employee(String firstname, String lastname, String departmentName, String username, String password,
 			int permissonLevelID, String date_of_birth) {
 		super();
-		this.ID = ID;
 		this.firstname = firstname;
 		this.lastname = lastname;
 		this.departmentName = departmentName;

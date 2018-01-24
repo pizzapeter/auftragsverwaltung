@@ -32,7 +32,7 @@ import at.Data.Message;
 public class UserService {
 
 	@GET
-	@Path("/deletUserByID/{id}/")
+	@Path("/deleteUserByID/{id}/")
 	@Produces(MediaType.APPLICATION_JSON)
 	public String deletUserByID(@PathParam("id") int ID) {
 		at.Data.Database db = new Database();
@@ -173,7 +173,6 @@ public class UserService {
 		List<Employee> employees = logic.getAllEmployees();
 		
 		return toJson(employees);
-
 	}
 
 	@POST
@@ -203,36 +202,41 @@ public class UserService {
 	}
 
 	@POST
-	@Path("/createUSER")
-	@Produces(MediaType.APPLICATION_JSON)
-	@Consumes(MediaType.TEXT_PLAIN)
-	public String creatNewUser(String input) {
+	@Path("/createUser")
+	@Produces(MediaType.TEXT_PLAIN)
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	public String creatNewUser(@FormParam("firstname") String firstname,
+											@FormParam("lastname") String lastname,
+											@FormParam("departmentName") String departmentName,
+											@FormParam("dateOfBirth") String dateOfBirth,
+											@FormParam("permissionLevelID") String permissionLevelID,
+											@FormParam("password") String password) {
 		at.Data.Database db = new Database();
-		Employee emp = fromJson(input, Employee.class);
+		
+		
 		String insertSQL = "INSERT INTO employees (ID, firstname,lastname,date_of_birth,permissionLevelID ,departmentName,username,password) VALUES (employee_seq.nextval, ?,?,?,?,?,?,?)";
 		PreparedStatement preparedStatement;
 		try {
 			java.util.Date today = new java.util.Date();
 			Date d = new Date(today.getTime());
 			preparedStatement = db.getCon().prepareStatement(insertSQL);
-			preparedStatement.setString(1, emp.firstname);
-			preparedStatement.setString(2, emp.lastname);
+			preparedStatement.setString(1, firstname);
+			preparedStatement.setString(2, lastname);
 			preparedStatement.setDate(3, d);
-			preparedStatement.setInt(4, emp.permissonLevelID);
-			preparedStatement.setString(5, emp.departmentName);
-			preparedStatement.setString(6, emp.username);
-			preparedStatement.setString(7, emp.password);
+			preparedStatement.setInt(4, Integer.parseInt(permissionLevelID));
+			preparedStatement.setString(5, departmentName);
+			preparedStatement.setString(6, "asdf"); // username
+			preparedStatement.setString(7, "yxcv"); // password
 
 			preparedStatement.executeUpdate();
 			db.getCon().commit();
 			db.getCon().close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-			System.out.println("Error: " + e.getMessage());
-			return "fuck";
+			return e.getMessage();
+			//System.out.println("Error: " + e.getMessage());
+			//return "fuck";
 		}
-
 		return "Inserted";
 	}
 
