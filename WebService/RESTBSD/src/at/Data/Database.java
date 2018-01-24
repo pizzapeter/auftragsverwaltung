@@ -18,8 +18,8 @@ public class Database {
 		try {
 			 Driver myDriver = new oracle.jdbc.driver.OracleDriver();
 			 DriverManager.registerDriver( myDriver );
-			 //con = DriverManager.getConnection("jdbc:oracle:thin:@212.152.179.117:1521:ora11g","d5a13","d5a");
-			 con = DriverManager.getConnection("jdbc:oracle:thin:@192.168.128.152:1521:ora11g","d5a13","d5a");
+			 con = DriverManager.getConnection("jdbc:oracle:thin:@212.152.179.117:1521:ora11g","d5a13","d5a");
+			 //con = DriverManager.getConnection("jdbc:oracle:thin:@192.168.128.152:1521:ora11g","d5a13","d5a");
 		}
 		catch(Exception ex) {
 			System.out.println("Error: unable to load driver class!");   

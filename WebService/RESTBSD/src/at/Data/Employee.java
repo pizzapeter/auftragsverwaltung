@@ -10,7 +10,7 @@ public class Employee {
 	public String password;
 	public int permissonLevelID;
 	public String date_of_birth;
-	public String id;
+	
 	
 	
 	public Employee(String firstname, String lastname, String departmentName, String username, String password,
