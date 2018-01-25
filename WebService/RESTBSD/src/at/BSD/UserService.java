@@ -28,7 +28,6 @@ import at.Data.Employee;
 import at.Data.Message;
 
 @Path("/UserService")
-
 public class UserService {
 
 	@GET
@@ -281,5 +280,44 @@ public class UserService {
 
 		return jobject.toJSONString();
 	}
+	@POST
+	@Path("/updateUser")
+	@Produces(MediaType.TEXT_PLAIN)
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	public String updateUser(@FormParam("id") String ID,@FormParam("firstname") String firstname,
+											@FormParam("lastname") String lastname,
+											@FormParam("departmentName") String departmentName,
+											@FormParam("dateOfBirth") String dateOfBirth,
+											@FormParam("permissionLevelID") String permissionLevelID) {
+		at.Data.Database db = new Database();
+		
+		
+		String insertSQL = "UPDATE employees SET firstname = ?,lastname = ?,"
+				+ "departmentName = ?,date_of_birth = ?,permissionLevelID = ? WHERE id = ?";
+		PreparedStatement preparedStatement;
+		try {
+			java.util.Date today = new java.util.Date();
+			Date d = new Date(today.getTime());
+			preparedStatement = db.getCon().prepareStatement(insertSQL);
+			preparedStatement.setString(1, firstname);
+			preparedStatement.setString(2, lastname);
+			preparedStatement.setString(3, departmentName);
+			preparedStatement.setDate(4, d);
+			preparedStatement.setInt(5, Integer.parseInt(permissionLevelID));
+
+			preparedStatement.setInt(6, Integer.parseInt(ID));
+
+			preparedStatement.executeUpdate();
+			db.getCon().commit();
+			db.getCon().close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return e.getMessage();
+			//System.out.println("Error: " + e.getMessage());
+			//return "fuck";
+		}
+		return "Updatet";
+	}
+
 
 }
