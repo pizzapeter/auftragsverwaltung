@@ -1,11 +1,15 @@
 package at.BSD;
 
+import java.sql.Date;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -23,10 +27,10 @@ public class TaskService {
 	@GET
 	@Path("/tasks")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String getUsers() {
+	public String getTasks() {
 		at.Data.Database db = new Database();
 		String selectTableSQL = "SELECT t.ID from task t inner join EmployeeTask et on t.id = et.TaskID inner "
-				+ "join Employees e on et.EmployeeID=e.ID;";
+				+ "join Employees e on et.EmployeeID=e.ID";
 		JSONArray jarray = new JSONArray();
 		JSONObject jobject = null;
 		ResultSet rs;
@@ -53,7 +57,107 @@ public class TaskService {
 			e.printStackTrace();
 			return e.getMessage();
 		}
-
 		return jarray.toJSONString();
 	}
+		
+		
+	
+	@SuppressWarnings("unchecked")
+	@GET
+	@Path("/employeeTasks/{employeeID}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String getTaksOfEmployee(@PathParam("employeeID") String employeeID) {
+		at.Data.Database db = new Database();
+		String selectTableSQL = "SELECT t.ID from task t inner join EmployeeTask et on t.id = et.TaskID inner "
+				+ "join Employees e on et.EmployeeID=e.ID and e.ID = "+employeeID;
+		JSONArray jarray = new JSONArray();
+		JSONObject jobject = null;
+		ResultSet rs;
+		try {
+			Statement statement = db.getCon().createStatement();
+			rs = statement.executeQuery(selectTableSQL);
+
+			while (rs.next()) {
+
+				jobject = new JSONObject();
+				jobject.put("ID", rs.getObject("t.ID"));
+				jobject.put("Name", rs.getObject("t.NAME"));
+				jobject.put("DESCRIPTION", rs.getObject("t.DESCRIPTION"));
+				jobject.put("FINISHED", rs.getObject("t.FINISHED"));
+				jobject.put("Firstname", rs.getObject("e.FIRSTNAME").toString());
+				jobject.put("Lastname", rs.getObject("e.LASTNAME").toString());
+				jobject.put("PLACEID", rs.getObject("PLACEID"));
+				jarray.add(jobject);
+
+			}
+			db.getCon().close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return e.getMessage();
+		}
+		return jarray.toJSONString();
+	}
+	@SuppressWarnings("unchecked")
+	@GET
+	@Path("/employeeTasks/{placeID}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String getTaksbyPlace(@PathParam("placeID") String placeID) {
+		at.Data.Database db = new Database();
+		String selectTableSQL = "SELECT t.ID from task t inner join EmployeeTask et on t.id = et.TaskID and t.PLACEID = "+placeID +" inner "
+				+ "join Employees e on et.EmployeeID=e.ID";
+		JSONArray jarray = new JSONArray();
+		JSONObject jobject = null;
+		ResultSet rs;
+		try {
+			Statement statement = db.getCon().createStatement();
+			rs = statement.executeQuery(selectTableSQL);
+
+			while (rs.next()) {
+
+				jobject = new JSONObject();
+				jobject.put("ID", rs.getObject("t.ID"));
+				jobject.put("Name", rs.getObject("t.NAME"));
+				jobject.put("DESCRIPTION", rs.getObject("t.DESCRIPTION"));
+				jobject.put("FINISHED", rs.getObject("t.FINISHED"));
+				jobject.put("Firstname", rs.getObject("e.FIRSTNAME").toString());
+				jobject.put("Lastname", rs.getObject("e.LASTNAME").toString());
+				jobject.put("PLACEID", rs.getObject("PLACEID"));
+				jarray.add(jobject);
+
+			}
+			db.getCon().close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return e.getMessage();
+		}
+		return jarray.toJSONString();
+	}
+	@POST
+	@Path("/insert")
+	public String insertTask(@FormParam("name") String name,
+			@FormParam("description") String description,
+			@FormParam("PlaceID") String PlaceID) {
+		at.Data.Database db = new Database();
+		String insertSQL = "INSERT INTO Task (ID, name,description,finished,PlaceID) VALUES (task_seq.nextval,?,?,0,?)";
+		PreparedStatement preparedStatement;
+		try {
+		java.util.Date today = new java.util.Date();
+		Date d = new Date(today.getTime());
+		preparedStatement = db.getCon().prepareStatement(insertSQL);
+		preparedStatement.setString(1, name);
+		preparedStatement.setString(2, description);
+		preparedStatement.setInt(3, Integer.parseInt(PlaceID));
+
+		preparedStatement.executeUpdate();
+		db.getCon().commit();
+		db.getCon().close();
+		} 
+		catch (SQLException e) {
+			e.printStackTrace();
+			return e.getMessage();
+		}
+		return "Inserted";
+	}		
 }
