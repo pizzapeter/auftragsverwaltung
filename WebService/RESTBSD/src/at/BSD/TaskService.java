@@ -41,7 +41,7 @@ public class TaskService {
 				jobject.put("Name", rs.getObject("t.NAME"));
 				jobject.put("DESCRIPTION", rs.getObject("t.DESCRIPTION"));
 				jobject.put("FINISHED", rs.getObject("t.FINISHED"));
-				jobject.put("Firstanme", rs.getObject("e.FIRSTNAME").toString());
+				jobject.put("Firstname", rs.getObject("e.FIRSTNAME").toString());
 				jobject.put("Lastname", rs.getObject("e.LASTNAME").toString());
 				jobject.put("PLACEID", rs.getObject("PLACEID"));
 				jarray.add(jobject);
