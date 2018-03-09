@@ -9,10 +9,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-
-import com.google.gson.Gson;
 
 import at.Data.*;
 
@@ -62,7 +58,6 @@ public class UserLogic extends AbstractLogic {
 			}
 			db.getCon().close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
 		

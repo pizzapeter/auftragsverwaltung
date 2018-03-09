@@ -26,11 +26,13 @@ namespace TaskManagement
         {
             InitializeComponent();
 
-            this.GenerateTestData();
+            //this.GenerateTestData();
+            //List<Job> jobs =  Restcalls.FetchTasksAsync();
             this.listView.Items.Clear();
            listView.ItemsSource = JobManager.GetAll();
             listView.Items.Refresh();
         }
+
 
         private void MItemNewTask_Click(object sender, RoutedEventArgs e)
         {
@@ -65,9 +67,9 @@ namespace TaskManagement
             this.btnDeleteJob.IsEnabled = false;
         }
 
-        private void GenerateTestData()
+        /*private void GenerateTestData()
         {   
-            Job sample = new Job(123, "Fix broken fence", "This is a really nice job which will give u a lot of money", 69);
+            Job sample = new Job(123, "Fix broken fence", "This is a really nice job which will give u a lot of money", "Dominik", "Pichler");
             JobManager.Create(sample);
             Job sample1 = new Job(234, "Fix broken glass", "dfasdf adsf a dsfad sfasdf as df", 69);
             JobManager.Create(sample1);
@@ -79,7 +81,7 @@ namespace TaskManagement
             JobManager.Create(sample4);
             Job sample5 = new Job(678, "Get the Joker", "This is a really nice job which will give u a lot of money", 69);
             JobManager.Create(sample5);
-        }
+        }*/
         private void ResetInfos()
         {
             this.lblJobName.Content = string.Empty;

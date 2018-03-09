@@ -34,8 +34,8 @@ namespace TaskManagement
         {
             try
             {
-                Job j = new Job(11, this.tbxJobName.Text, this.tbxDescription.Text, 11);
-                JobManager.Create(j);
+                //Job j = new Job(11, this.tbxJobName.Text, this.tbxDescription.Text, 11);
+                //JobManager.Create(j);
                 this.Close();
             }
             catch (Exception ex)

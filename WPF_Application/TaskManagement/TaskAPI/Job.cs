@@ -10,15 +10,17 @@ namespace TaskAPI
         public string JobName { get; private set; }
         public string Description { get; private set; }
         public JobStatus Status { get; private set; }
-        public int EmployeeID { get; private set; }
+        public string EmployeeFirstname { get; private set; }
+        public string EmployeeLastname { get; private set; }
         public Place Location { get; private set; }
-        public Job(int iD, string jobName, string description, int employeeID)
+        public Job(int iD, string jobName, string description, string EmployeeFirstname,string EmployeeLastname)
         {
             ID = iD;
             JobName = jobName;
             Description = description;
             Status = JobStatus.InProgress;
-            EmployeeID = employeeID;
+            this.EmployeeFirstname = EmployeeFirstname;
+            this.EmployeeLastname = EmployeeLastname;
            // Location = location;
         }
         public Job(Job toCopy)
@@ -27,7 +29,8 @@ namespace TaskAPI
             JobName = toCopy.JobName;
             Description = toCopy.Description;
             Status = toCopy.Status;
-            EmployeeID = toCopy.EmployeeID;
+            EmployeeFirstname = toCopy.EmployeeFirstname;
+            EmployeeLastname = toCopy.EmployeeLastname;
             // Location = toCopy.Location;
         }
 

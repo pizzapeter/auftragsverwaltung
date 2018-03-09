@@ -20,7 +20,6 @@ import javax.ws.rs.core.MediaType;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import at.Data.Database;
@@ -44,7 +43,6 @@ public class UserService {
 			db.getCon().commit();
 			db.getCon().close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			System.out.println(e.getMessage());
 			returnString = "Error";
@@ -52,12 +50,10 @@ public class UserService {
 		return returnString;
 	}
 
-	@SuppressWarnings("unchecked")
 	@GET
 	@Path("/userbyFirstname/{firstname}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public String getUsersByFirstname(@PathParam("firstname") String firstname) {
-		UserLogic logic = new UserLogic();
 		//List<Employee> employees = logic.getEmployeeByFirstname(firstname);
 		//return toJson(employees);
 		return firstname;
@@ -94,7 +90,6 @@ public class UserService {
 			}
 			db.getCon().close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -123,7 +118,6 @@ public class UserService {
 			}
 			db.getCon().close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 
@@ -155,7 +149,6 @@ public class UserService {
 			}
 			db.getCon().close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 
@@ -246,7 +239,7 @@ public class UserService {
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	public String login(@FormParam("username") String username, @FormParam("password") String password) {
 		at.Data.Database db = new Database();
-		String selectTableSQL = "SELECT password from employees where username = ?";
+		String selectTableSQL = "SELECT password,ID from employees where username = ?";
 
 		PreparedStatement preparedStatement = null;
 		JSONObject jobject = null;
@@ -263,17 +256,19 @@ public class UserService {
 				System.out.println(password);
 				if (passwordOfTable.equals(password)) {
 					jobject.put("Ok", true);
+					jobject.put("ID", rs.getString("ID"));
 				} else {
 					jobject.put("OK", false);
+					jobject.put("Error", "Password");
 				}
 			}
 			if (!exist) {
 				jobject.put("OK", false);
+				jobject.put("Error", "username");
 			}
 			db.getCon().commit();
 			db.getCon().close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			System.out.println("Error: " + e.getMessage());
 		}

@@ -1,6 +1,5 @@
 package at.Data;
 
-import java.time.LocalDateTime;
 
 public class Employee {
 	public String firstname;

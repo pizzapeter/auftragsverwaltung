@@ -640,3 +640,4 @@ $RECYCLE.BIN/
 
 
 # End of https://www.gitignore.io/api/java,csharp,eclipse,windows,intellij,jetbrains,visualstudio
+WPF_Application/TaskManagement/TaskAPI/Job.cs

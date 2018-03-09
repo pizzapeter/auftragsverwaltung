@@ -1,11 +1,9 @@
 package at.BSD;
 
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.List;
 
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -25,7 +23,7 @@ public class TaskService {
 	
 	@SuppressWarnings("unchecked")
 	@GET
-	@Path("/tasks")
+	@Path("/getalltasks")
 	@Produces(MediaType.APPLICATION_JSON)
 	public String getTasks() {
 		at.Data.Database db = new Database();
@@ -53,7 +51,6 @@ public class TaskService {
 			}
 			db.getCon().close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return e.getMessage();
 		}
@@ -64,7 +61,7 @@ public class TaskService {
 	
 	@SuppressWarnings("unchecked")
 	@GET
-	@Path("/employeeTasks/{employeeID}")
+	@Path("/gettasksbyemployee/{employeeID}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public String getTaksOfEmployee(@PathParam("employeeID") String employeeID) {
 		at.Data.Database db = new Database();
@@ -92,7 +89,6 @@ public class TaskService {
 			}
 			db.getCon().close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return e.getMessage();
 		}
@@ -100,9 +96,9 @@ public class TaskService {
 	}
 	@SuppressWarnings("unchecked")
 	@GET
-	@Path("/employeeTasks/{placeID}")
+	@Path("/gettaskbyplace/{placeID}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String getTaksbyPlace(@PathParam("placeID") String placeID) {
+	public String getTaskbyPlace(@PathParam("placeID") String placeID) {
 		at.Data.Database db = new Database();
 		String selectTableSQL = "SELECT t.ID from task t inner join EmployeeTask et on t.id = et.TaskID and t.PLACEID = "+placeID +" inner "
 				+ "join Employees e on et.EmployeeID=e.ID";
@@ -128,7 +124,6 @@ public class TaskService {
 			}
 			db.getCon().close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return e.getMessage();
 		}
@@ -143,8 +138,6 @@ public class TaskService {
 		String insertSQL = "INSERT INTO Task (ID, name,description,finished,PlaceID) VALUES (task_seq.nextval,?,?,0,?)";
 		PreparedStatement preparedStatement;
 		try {
-		java.util.Date today = new java.util.Date();
-		Date d = new Date(today.getTime());
 		preparedStatement = db.getCon().prepareStatement(insertSQL);
 		preparedStatement.setString(1, name);
 		preparedStatement.setString(2, description);
