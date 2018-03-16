@@ -27,7 +27,7 @@ public class TaskService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public String getTasks() {
 		at.Data.Database db = new Database();
-		String selectTableSQL = "SELECT t.ID from task t inner join EmployeeTask et on t.id = et.TaskID inner "
+		String selectTableSQL = "SELECT * from task t inner join EmployeeTask et on t.id = et.TaskID inner "
 				+ "join Employees e on et.EmployeeID=e.ID";
 		JSONArray jarray = new JSONArray();
 		JSONObject jobject = null;
