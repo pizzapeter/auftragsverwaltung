@@ -6,46 +6,36 @@ import data.UserManager;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
+import javafx.concurrent.Service;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import org.controlsfx.control.textfield.CustomTextField;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.concurrent.CountDownLatch;
 
 public class MainWindowController {
-
-    //region FXML Controls
     @FXML
     private javafx.scene.control.ListView<User> listView;
 
     @FXML
     private CustomTextField searchTextField;
 
-    //endregion
-
-    //region private vars
     private ContextMenu contextMenu;
     private ObservableList<User> filteredList = FXCollections.observableArrayList();
-    //endregion
 
     @FXML
     public void initialize() {
-        Thread t = new Thread(()->{
-            showLoading(true);
-            loadAllUser();
-            showLoading(false);
-            this.listView.setItems(UserManager.getInstance().getAllUsers());
-        });
-        t.start();
+        loadAllUser();
 
         this.listView.setItems(UserManager.getInstance().getAllUsers());
         this.initContextMenu();
@@ -110,7 +100,6 @@ public class MainWindowController {
         MenuItem mNewUser = new MenuItem("new user");
         mNewUser.setOnAction(e -> {
             try {
-
                 this.createNewUser();
             } catch (IOException ioEx) {
                 ioEx.printStackTrace();
@@ -142,23 +131,32 @@ public class MainWindowController {
         loadAllUser();
     }
 
-    private void loadAllUser(){
-        try {
-            ArrayList<User> all = RESTService.getInstance().FetchAllUsers();
-            UserManager.getInstance().setAllUsers(all);
-        }catch (Exception ex){
-            ex.printStackTrace();
-        }
+    private void loadAllUser() {
+        Thread t = new Thread(() -> {
+            try {
+                ArrayList<User> all = RESTService.getInstance().FetchAllUsers();
+                UserManager.getInstance().setAllUsers(all);
+                listView.setItems(UserManager.getInstance().getAllUsers());
+                System.out.println("all users loaded");
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        });
+        t.start();
     }
 
     private void deleteUser() {
         User u = this.listView.getSelectionModel().getSelectedItem();
-        try {
-            UserManager.getInstance().deleteUser(u);
-            this.resetSearch(); // maybe there's a better approach :thinking:
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+        Platform.runLater(() -> {
+            try {
+                UserManager.getInstance().deleteUser(u);
+                this.resetSearch();
+                loadAllUser();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
+
     }
 
     public void onCloseSearch() {

@@ -5,7 +5,7 @@ import javafx.collections.ObservableList;
 
 import java.util.ArrayList;
 
-public class UserManager { // TODO: 20.10.2017 replace user methods with rest calls
+public class UserManager {
     private static UserManager ourInstance = new UserManager();
     private ObservableList<User> allUsers;
 
@@ -26,15 +26,17 @@ public class UserManager { // TODO: 20.10.2017 replace user methods with rest ca
             throw new Exception("User does already exist");
         }
         this.allUsers.add(new User(newUser.getId(), newUser.getFirstname(), newUser.getLastname(),
-                newUser.getDateOfBirth(), newUser.getPermissionLevel(), newUser.getDepartment()));
+                newUser.getDateOfBirth(), newUser.getPermissionLevel(), newUser.getDepartment(), "passwd"));
     }
 
     public void deleteUser(User userToDelete) throws Exception {
-        this.allUsers.remove(userToDelete);
+      //  this.allUsers.remove(userToDelete);
+        String response = RESTService.getInstance().DeleteUser( String.valueOf(userToDelete.getId()));
+        System.out.println("response of delete user: " + response);
     }
 
     public void updateUser(User userToUpdate) throws Exception {
-        // do some rest call
+
     }
 
     public void setAllUsers(ArrayList<User> allUsers) throws Exception {

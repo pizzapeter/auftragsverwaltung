@@ -38,13 +38,14 @@ public class User {
         return permissionLevelID;
     }
 
-    public User(int id, String firstname, String lastname, String dateofBirth, int permissionLevelID, String department) {
+    public User(int id, String firstname, String lastname, String dateofBirth, int permissionLevelID, String department, String password) {
         this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
         this.dateOfBirth = dateofBirth;
         this.permissionLevelID = permissionLevelID;
         this.department = department;
+        this.password = password;
     }
 
     @Override

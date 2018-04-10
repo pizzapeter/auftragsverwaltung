@@ -2,18 +2,23 @@ package data;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
 
 public class RESTService {
     private static RESTService ourInstance = new RESTService();
@@ -65,62 +70,52 @@ public class RESTService {
         return sb.toString();
     }
 
-
-    public void PostUser(User u) throws Exception {
+    public void CreateUser(User u) throws Exception {
         String ur = RESTUrl + "createUser";
-        String ret = "";
 
-        HttpPost httpPost = new HttpPost(ur);
-        List<BasicNameValuePair> params = new ArrayList<>();
+        HttpClient client = HttpClientBuilder.create().build();
+        HttpPost post = new HttpPost(ur);
 
-        params.add(new BasicNameValuePair("firstname", u.getFirstname()));
-        params.add(new BasicNameValuePair("lastname", u.getLastname()));
-        params.add(new BasicNameValuePair("departmentName", u.getDepartment()));
-        params.add(new BasicNameValuePair(" dateOfBirth", u.getDateOfBirth()));
-        params.add(new BasicNameValuePair("permissionLevelID", String.valueOf(u.getPermissionLevel())));
-        params.add(new BasicNameValuePair("password", u.getPassword()));
+        // Create some NameValuePair for HttpPost parameters
+        List<NameValuePair> arguments = new ArrayList<>(3);
+        arguments.add(new BasicNameValuePair("firstname", u.getFirstname()));
+        arguments.add(new BasicNameValuePair("lastname", u.getLastname()));
+        arguments.add(new BasicNameValuePair("departmentName", u.getDepartment()));
+        arguments.add(new BasicNameValuePair("dateOfBirth", u.getDateOfBirth()));
+        arguments.add(new BasicNameValuePair("permissionLevelID", String.valueOf(u.getPermissionLevel())));
+        arguments.add(new BasicNameValuePair("password", u.getPassword()));
 
+        try {
+            post.setEntity(new UrlEncodedFormEntity(arguments));
+            HttpResponse response = client.execute(post);
 
-        URL url = new URL(ur);
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestMethod("POST");
-        conn.setRequestProperty("Content-Type", "application/json");
-        conn.setDoOutput(true);
-        String input = "{\"ID\":1,\"Namen\":\"Traingsstadion\",\"ClubID\":1,\"StadiumSize\":100}";
-
-        Gson gson = new GsonBuilder().create();
-        gson.toJson(u);
-
-        OutputStream os = conn.getOutputStream();
-        os.write(input.getBytes());
-        BufferedReader br = new BufferedReader(new InputStreamReader(
-                (conn.getInputStream())));
-        String output;
-        while ((output = br.readLine()) != null) {
-            ret = output;
+            // Print out the response message
+            System.out.println("response from create user: "  + EntityUtils.toString(response.getEntity()));
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-
-        conn.disconnect();
     }
 
-    public void DeleteUser(String id) throws Exception {
-        String url = RESTUrl + "/deletUserByID/" + id;
+    public String DeleteUser(String id) throws Exception {
+        String url = RESTUrl + "deleteUserByID/" + id;
+        URL ur = new URL(url);
+        StringBuilder sb;
 
-    }
-
-    private HttpURLConnection getConnection(String _url, String requestMethod, int length) throws Exception {
-        URL url = new URL(_url);
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        connection.setDoOutput(true);
-        connection.setDoInput(false);
-        connection.setInstanceFollowRedirects(false);
-        connection.setRequestMethod(requestMethod);
-        connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-        connection.setRequestProperty("charset", "utf-8");
-        connection.setRequestProperty("Content-Length", Integer.toString(length));
-        connection.setUseCaches(false);
+        HttpURLConnection connection = (HttpURLConnection) ur.openConnection();
+        connection.setRequestMethod("GET");
         connection.connect();
-        return connection;
-    }
+        int responseCode = connection.getResponseCode();
 
+        if (responseCode != 200) {
+            throw new RuntimeException("HttpResponseCode: " + responseCode);
+        } else {
+            Scanner sc = new Scanner(ur.openStream());
+            sb = new StringBuilder();
+            while (sc.hasNext()) {
+                sb.append(sc.nextLine());
+            }
+        }
+        connection.disconnect();
+        return sb.toString();
+    }
 }
