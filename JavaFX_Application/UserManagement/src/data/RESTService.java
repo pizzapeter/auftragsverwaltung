@@ -78,7 +78,7 @@ public class RESTService {
         params.add(new BasicNameValuePair("departmentName", u.getDepartment()));
         params.add(new BasicNameValuePair(" dateOfBirth", u.getDateOfBirth()));
         params.add(new BasicNameValuePair("permissionLevelID", String.valueOf(u.getPermissionLevel())));
-        params.add(new BasicNameValuePair("password", u.getPassword())));
+        params.add(new BasicNameValuePair("password", u.getPassword()));
 
 
         URL url = new URL(ur);
