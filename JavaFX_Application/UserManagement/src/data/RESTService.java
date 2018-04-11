@@ -41,6 +41,29 @@ public class RESTService {
         return (ArrayList<User>) allUsers;
     }
 
+    public ArrayList<Department> FetchAllDepartments() throws Exception{
+        Gson gson = new GsonBuilder().create();
+        String url = "departments";
+        List<Department> allDeps;
+
+        String fetchedData=fetchData(url);
+        Department[] departments = gson.fromJson(fetchedData, Department[].class);
+        allDeps=new ArrayList<>(Arrays.asList(departments));
+
+        return (ArrayList<Department>) allDeps;
+    }
+
+    public ArrayList<PermissionLevel> FetchAllPermissionLevels() throws Exception{
+        Gson gson = new GsonBuilder().create();
+        String url = "permissionlevels";
+        List<PermissionLevel> allPermissionLevels;
+
+        String fetchedData=fetchData(url);
+        PermissionLevel[] permissionLevels = gson.fromJson(fetchedData, PermissionLevel[].class);
+        allPermissionLevels=new ArrayList<>(Arrays.asList(permissionLevels));
+
+        return (ArrayList<PermissionLevel>) allPermissionLevels;
+    }
 
     private String fetchData(String u) throws Exception {
         URL url;
@@ -64,7 +87,7 @@ public class RESTService {
                 sb.append(sc.nextLine());
             }
             if (sb.length() < 1)
-                throw new Exception("There are no users available");
+                throw new Exception("There is no data available");
         }
         connection.disconnect();
         return sb.toString();

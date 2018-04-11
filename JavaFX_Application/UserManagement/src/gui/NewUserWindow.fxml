@@ -35,15 +35,15 @@
       <Button id="btnOK" fx:id="btnOK" mnemonicParsing="false" onAction="#OnOK" text="OK" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="5" />
       <Label alignment="CENTER" maxWidth="1.7976931348623157E308" text="Department" GridPane.rowIndex="3" />
       <DatePicker id="datePicker" fx:id="datePicker" editable="false" maxWidth="1.7976931348623157E308" showWeekNumbers="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-      <ComboBox maxWidth="1.7976931348623157E308" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+      <ComboBox id="cmbDeps" fx:id="cmbDeps" maxWidth="1.7976931348623157E308" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
       <Label alignment="CENTER" maxWidth="1.7976931348623157E308" text="Permission Level" GridPane.rowIndex="4" />
-      <ChoiceBox prefHeight="25.0" prefWidth="90.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+      <ComboBox id="cmbPermissionLvl" fx:id="cmbPermissionLvl" prefHeight="25.0" prefWidth="90.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
           <items>
               <FXCollections fx:factory="observableArrayList">
                   <String fx:value="1" />
                   <String fx:value="2" />
               </FXCollections>
           </items>
-      </ChoiceBox>
+      </ComboBox>
    </children>
 </GridPane>

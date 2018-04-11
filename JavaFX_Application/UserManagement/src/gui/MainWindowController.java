@@ -132,31 +132,41 @@ public class MainWindowController {
     }
 
     private void loadAllUser() {
-        Thread t = new Thread(() -> {
+        // runnable for that thread
+        new Thread(() -> {
             try {
                 ArrayList<User> all = RESTService.getInstance().FetchAllUsers();
                 UserManager.getInstance().setAllUsers(all);
-                listView.setItems(UserManager.getInstance().getAllUsers());
                 System.out.println("all users loaded");
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
-        });
-        t.start();
+
+            Platform.runLater(() -> listView.setItems(UserManager.getInstance().getAllUsers()));
+        }).start();
     }
 
     private void deleteUser() {
         User u = this.listView.getSelectionModel().getSelectedItem();
-        Platform.runLater(() -> {
-            try {
-                UserManager.getInstance().deleteUser(u);
-                this.resetSearch();
-                loadAllUser();
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-        });
+        new Thread() {
 
+            // runnable for that thread
+            public void run() {
+                try {
+                    UserManager.getInstance().deleteUser(u);
+                    loadAllUser();
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
+
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        resetSearch();
+                    }
+                });
+            }
+        }.start();
     }
 
     public void onCloseSearch() {
