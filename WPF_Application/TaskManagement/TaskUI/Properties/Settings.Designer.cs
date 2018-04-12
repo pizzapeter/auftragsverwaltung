@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace TaskManagement.Properties
+namespace TaskUI.Properties
 {
 
 

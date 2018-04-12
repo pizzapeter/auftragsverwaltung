@@ -13,17 +13,20 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using TaskAPI;
 
-namespace TaskManagement
+namespace TaskUI
 {
     /// <summary>
-    /// Interaction logic for NewJobWindow.xaml
+    /// Interaction logic for NewTaskWindow.xaml
     /// </summary>
-    public partial class NewJobWindow : Window
+    public partial class NewTaskWindow : Window
     {
-        public NewJobWindow()
+        public NewTaskWindow()
         {
             InitializeComponent();
+            
         }
+
+        
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
@@ -34,14 +37,26 @@ namespace TaskManagement
         {
             try
             {
-                //Job j = new Job(11, this.tbxJobName.Text, this.tbxDescription.Text, 11);
-                //JobManager.Create(j);
+                CheckInputs();
+                AddNewTask();
                 this.Close();
-            }
-            catch (Exception ex)
+            }catch(Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
+        }
+
+        private void CheckInputs()
+        {
+            if (tbxJobName.Text.Trim() == "")
+                throw new Exception("Please fill in a Name for this Task");
+            if (tbxDescription.Text.Trim() == "")
+                throw new Exception("Please fill in a Description for this Task");
+        }
+
+        private async void AddNewTask()
+        {
+            await Service.AddNewTask(tbxJobName.Text.Trim(), tbxDescription.Text.Trim());
         }
     }
 }
