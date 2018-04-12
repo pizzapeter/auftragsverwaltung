@@ -2,15 +2,12 @@ package gui;
 
 import data.*;
 import javafx.application.Platform;
-import javafx.concurrent.Service;
-import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
-import java.util.concurrent.CountDownLatch;
 
 public class NewUserWindowController {
 
@@ -30,7 +27,7 @@ public class NewUserWindowController {
     private ComboBox<Department> cmbDeps;
 
     @FXML
-    public void initialize(){
+    public void initialize() {
         loadAllDeps();
         loadAllPermissionLevels();
     }
@@ -81,7 +78,7 @@ public class NewUserWindowController {
         if (checkInputFields()) {
             PermissionLevel pl = cmbPermissionLvl.getSelectionModel().getSelectedItem();
             User newUser = new User(42, tfFirstname.getText().trim(), tfLastname.getText().trim(), datePicker.getValue().toString(), Integer.parseInt(pl.getID()), "Test Deparment", "passwd");
-
+            System.out.println("dateofbirth: " + datePicker.getValue().toString());
             new Thread() {
 
                 // runnable for that thread

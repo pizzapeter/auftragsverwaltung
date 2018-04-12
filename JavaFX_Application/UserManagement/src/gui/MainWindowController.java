@@ -6,22 +6,19 @@ import data.UserManager;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.concurrent.Service;
-import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ContextMenu;
-import javafx.scene.control.MenuItem;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import org.controlsfx.control.textfield.CustomTextField;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.concurrent.CountDownLatch;
 
 public class MainWindowController {
     @FXML
@@ -29,6 +26,17 @@ public class MainWindowController {
 
     @FXML
     private CustomTextField searchTextField;
+    @FXML
+    private TextField tfFirstname;
+    @FXML
+    private TextField tfLastname;
+    @FXML
+    private TextField tfPermissionLevel;
+    @FXML
+    private TextField tfDepartment;
+    @FXML
+    private DatePicker datePicker;
+
 
     private ContextMenu contextMenu;
     private ObservableList<User> filteredList = FXCollections.observableArrayList();
@@ -43,6 +51,7 @@ public class MainWindowController {
         this.listView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             User u = listView.getSelectionModel().getSelectedItem();
             if (u != null) {
+                setInputFields(u);
                 System.out.println("item selected");
             }
         });
@@ -51,6 +60,21 @@ public class MainWindowController {
     private void showLoading(boolean b) {
 
 
+    }
+
+    private void setInputFields(User user){
+        try {
+            tfFirstname.setText(user.getFirstname());
+            tfLastname.setText(user.getLastname());
+            tfDepartment.setText(user.getDepartmentName());
+            tfPermissionLevel.setText(String.valueOf(user.getPermissionLevel()));
+            DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-mm-dd");
+            System.out.println(user.getDate_of_birth());
+            LocalDate localDate = LocalDate.parse(user.getDate_of_birth(), dateTimeFormatter);
+            datePicker.setValue(localDate);
+        }catch (Exception ex){
+            System.out.println("setinputfield: " +ex.getMessage());
+        }
     }
 
     @FXML

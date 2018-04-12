@@ -2,12 +2,14 @@
 
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -63,7 +65,7 @@
 
                                 <Button fx:id="btnRefresh" onAction="#onRefresh" styleClass="buttonRefreshList">
                                     <graphic>
-                                        <FontAwesomeIconView styleClass="buttonRefreshListIcon"/>
+                                        <FontAwesomeIconView styleClass="buttonRefreshListIcon" />
                                     </graphic>
                                 </Button>
                             </items>
@@ -73,21 +75,42 @@
                         <ListView fx:id="listView" prefHeight="351.0" prefWidth="325.0" BorderPane.alignment="CENTER" />
                     </center>
                 </BorderPane>
-            <BorderPane>
-               <left>
+            <GridPane>
+
                       <GridPane alignment="center" hgap="10" prefHeight="269.0" prefWidth="617.0" vgap="10" BorderPane.alignment="CENTER">
                           <rowConstraints>
                               <RowConstraints minHeight="10.0" prefHeight="30.0" />
                               <RowConstraints minHeight="10.0" prefHeight="30.0" />
                               <RowConstraints minHeight="10.0" prefHeight="30.0" />
+                     <RowConstraints minHeight="10.0" prefHeight="30.0" />
+                     <RowConstraints minHeight="10.0" prefHeight="30.0" />
                           </rowConstraints>
                           <columnConstraints>
-                              <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
-                              <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints minWidth="10.0" prefWidth="150.0" />
+                              <ColumnConstraints minWidth="200.0" prefWidth="100.0" />
                           </columnConstraints>
+                     <children>
+                        <Label fx:id="lblFirstname" alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Firstname" />
+                        <TextField fx:id="tfFirstname" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="162.0" GridPane.columnIndex="1" />
+                     <TextField fx:id="tfLastname" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                     <Label fx:id="lbLastname" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Lastname" GridPane.rowIndex="1" />
+                     <Label GridPane.rowIndex="2" />
+                     <Label alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Date of Birth" GridPane.rowIndex="2" />
+                     <DatePicker fx:id="datePicker" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                     <Label alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Department" GridPane.rowIndex="3" />
+                     <Label alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Permission Level" GridPane.rowIndex="4" />
+                     <TextField fx:id="tfDepartment" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                     <TextField fx:id="tfPermissionLevel" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                     </children>
                       </GridPane>
-               </left>
-            </BorderPane>
+               <columnConstraints>
+                  <ColumnConstraints />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints />
+               </rowConstraints>
+
+            </GridPane>
             </items>
         </SplitPane>
     </center>

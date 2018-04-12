@@ -1,17 +1,8 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using TaskAPI;
 
 
 namespace TaskAPI
@@ -24,7 +15,7 @@ namespace TaskAPI
         public static async Task<List<Job>> FetchTasksAsync()
         {
             string url = string.Format("http://services.groupkt.com/country/get/all");
-
+            
             HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Add("Accept", "application/json");
 

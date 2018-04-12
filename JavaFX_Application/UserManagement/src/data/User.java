@@ -5,9 +5,9 @@ public class User {
     private int id;
     private String firstname;
     private String lastname;
-    private String dateOfBirth;
+    private String date_of_birth;
     private int permissionLevelID;
-    private String department;
+    private String departmentName;
     private String password;
 
     public int getId() {
@@ -22,12 +22,12 @@ public class User {
         return lastname;
     }
 
-    public String getDateOfBirth() {
-        return dateOfBirth;
+    public String getDate_of_birth() {
+        return date_of_birth;
     }
 
-    public String getDepartment() {
-        return department;
+    public String getDepartmentName() {
+        return departmentName;
     }
 
     public String getPassword() {
@@ -38,13 +38,13 @@ public class User {
         return permissionLevelID;
     }
 
-    public User(int id, String firstname, String lastname, String dateofBirth, int permissionLevelID, String department, String password) {
+    public User(int id, String firstname, String lastname, String dateofBirth, int permissionLevelID, String departmentName, String password) {
         this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
-        this.dateOfBirth = dateofBirth;
+        this.date_of_birth = dateofBirth;
         this.permissionLevelID = permissionLevelID;
-        this.department = department;
+        this.departmentName = departmentName;
         this.password = password;
     }
 
@@ -64,8 +64,8 @@ public class User {
         if (permissionLevelID != user.permissionLevelID) return false;
         if (firstname != null ? !firstname.equals(user.firstname) : user.firstname != null) return false;
         if (lastname != null ? !lastname.equals(user.lastname) : user.lastname != null) return false;
-        if (dateOfBirth != null ? !dateOfBirth.equals(user.dateOfBirth) : user.dateOfBirth != null) return false;
-        if (department != null ? !department.equals(user.department) : user.department != null) return false;
+        if (date_of_birth != null ? !date_of_birth.equals(user.date_of_birth) : user.date_of_birth != null) return false;
+        if (departmentName != null ? !departmentName.equals(user.departmentName) : user.departmentName != null) return false;
         return password != null ? password.equals(user.password) : user.password == null;
     }
 
@@ -74,9 +74,9 @@ public class User {
         int result = id;
         result = 31 * result + (firstname != null ? firstname.hashCode() : 0);
         result = 31 * result + (lastname != null ? lastname.hashCode() : 0);
-        result = 31 * result + (dateOfBirth != null ? dateOfBirth.hashCode() : 0);
+        result = 31 * result + (date_of_birth != null ? date_of_birth.hashCode() : 0);
         result = 31 * result + permissionLevelID;
-        result = 31 * result + (department != null ? department.hashCode() : 0);
+        result = 31 * result + (departmentName != null ? departmentName.hashCode() : 0);
         result = 31 * result + (password != null ? password.hashCode() : 0);
         return result;
     }
