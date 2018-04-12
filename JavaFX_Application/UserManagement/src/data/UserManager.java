@@ -26,7 +26,7 @@ public class UserManager {
             throw new Exception("User does already exist");
         }
         this.allUsers.add(new User(newUser.getId(), newUser.getFirstname(), newUser.getLastname(),
-                newUser.getDate_of_birth(), newUser.getPermissionLevel(), newUser.getDepartmentName(), "passwd"));
+                newUser.getDate_of_birth(), newUser.getPermissionLevel(), newUser.getDepartment(), "passwd"));
     }
 
     public void deleteUser(User userToDelete) throws Exception {

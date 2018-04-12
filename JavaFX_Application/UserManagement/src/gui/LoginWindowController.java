@@ -1,5 +1,6 @@
 package gui;
 
+import data.RESTService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -7,10 +8,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -22,25 +25,29 @@ public class LoginWindowController {
     private Label lblStatus;
     @FXML
     private PasswordField passwordField;
+    @FXML
+    private TextField usernameField;
+
+    private JPasswordField jPasswordField;
 
     private byte[] passwd; //only for testing
 
     public void OnLogin(ActionEvent actionEvent) {
         try {
-            MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            passwd = digest.digest("password".getBytes(StandardCharsets.UTF_8));
-            byte[] hash = digest.digest(passwordField.getText().getBytes(StandardCharsets.UTF_8));
+
+
+            boolean loggedIn = RESTService.getInstance().LogIn(usernameField.getText(), passwordField.getText());
             passwordField.clear();
-          //  if (passwordField.getText() == "") {
-                System.out.println("hashing worked");
+          if (loggedIn) {
+                System.out.println("loggin you in");
                 lblStatus.setTextFill(Color.GREEN);
                 lblStatus.setText("Logging you in");
                 loadMainWindow();
-            /*} else {
+            } else {
                 lblStatus.setTextFill(Color.RED);
                 lblStatus.setText("Wrong password!");
-            }*/
-        } catch (NoSuchAlgorithmException e) {
+            }
+        } catch (Exception e) {
             e.printStackTrace();
         }
 

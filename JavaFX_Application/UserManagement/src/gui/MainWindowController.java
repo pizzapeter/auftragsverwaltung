@@ -16,7 +16,6 @@ import javafx.stage.Stage;
 import org.controlsfx.control.textfield.CustomTextField;
 
 import java.io.IOException;
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
@@ -35,8 +34,7 @@ public class MainWindowController {
     @FXML
     private TextField tfDepartment;
     @FXML
-    private DatePicker datePicker;
-
+    private Button btnSave;
 
     private ContextMenu contextMenu;
     private ObservableList<User> filteredList = FXCollections.observableArrayList();
@@ -66,12 +64,10 @@ public class MainWindowController {
         try {
             tfFirstname.setText(user.getFirstname());
             tfLastname.setText(user.getLastname());
-            tfDepartment.setText(user.getDepartmentName());
+            tfDepartment.setText(user.getDepartment());
             tfPermissionLevel.setText(String.valueOf(user.getPermissionLevel()));
-            DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-mm-dd");
-            System.out.println(user.getDate_of_birth());
-            LocalDate localDate = LocalDate.parse(user.getDate_of_birth(), dateTimeFormatter);
-            datePicker.setValue(localDate);
+            btnSave.setDisable(true);
+            disableGUIElements();
         }catch (Exception ex){
             System.out.println("setinputfield: " +ex.getMessage());
         }
@@ -208,5 +204,51 @@ public class MainWindowController {
 
     public void onRefresh() {
         loadAllUser();
+    }
+
+    public void OnEdit() {
+        enableGUIElements();
+        //editUser();
+    }
+
+    private void editUser(){
+        User u = listView.getSelectionModel().getSelectedItem();
+        User editedUser = new User(u.getId(), tfFirstname.getText().trim(), tfLastname.getText().trim(), "2018-12-04", Integer.parseInt(tfPermissionLevel.getText()), "Test Deparment", "passwd");
+        // runnable for that thread
+        new Thread(() -> {
+            try {
+                RESTService.getInstance().UpdateUser(editedUser);
+                System.out.println(editedUser.toString());
+            } catch (Exception e) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setHeaderText(e.getMessage());
+                alert.showAndWait();
+                System.out.println(e.getMessage());
+            }
+
+            Platform.runLater(() -> loadAllUser());
+        }).start();
+    }
+
+    private void enableGUIElements(){
+        tfFirstname.setDisable(false);
+        tfLastname.setDisable(false);
+        tfDepartment.setDisable(false);
+        tfDepartment.setText("Test Department");
+        tfPermissionLevel.setDisable(false);
+        btnSave.setDisable(false);
+    }
+
+    private void disableGUIElements(){
+        tfFirstname.setDisable(true);
+        tfLastname.setDisable(true);
+        tfDepartment.setDisable(true);
+        tfPermissionLevel.setDisable(true);
+        btnSave.setDisable(true);
+    }
+
+    public void OnSave() {
+        editUser();
+        disableGUIElements();
     }
 }

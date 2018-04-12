@@ -11,10 +11,13 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
-import java.io.*;
+import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Scanner;
 
 public class RESTService {
     private static RESTService ourInstance = new RESTService();
@@ -37,26 +40,26 @@ public class RESTService {
         return (ArrayList<User>) allUsers;
     }
 
-    public ArrayList<Department> FetchAllDepartments() throws Exception{
+    public ArrayList<Department> FetchAllDepartments() throws Exception {
         Gson gson = new GsonBuilder().create();
         String url = "departments";
         List<Department> allDeps;
 
-        String fetchedData=fetchData(url);
+        String fetchedData = fetchData(url);
         Department[] departments = gson.fromJson(fetchedData, Department[].class);
-        allDeps=new ArrayList<>(Arrays.asList(departments));
+        allDeps = new ArrayList<>(Arrays.asList(departments));
 
         return (ArrayList<Department>) allDeps;
     }
 
-    public ArrayList<PermissionLevel> FetchAllPermissionLevels() throws Exception{
+    public ArrayList<PermissionLevel> FetchAllPermissionLevels() throws Exception {
         Gson gson = new GsonBuilder().create();
         String url = "permissionlevels";
         List<PermissionLevel> allPermissionLevels;
 
-        String fetchedData=fetchData(url);
+        String fetchedData = fetchData(url);
         PermissionLevel[] permissionLevels = gson.fromJson(fetchedData, PermissionLevel[].class);
-        allPermissionLevels=new ArrayList<>(Arrays.asList(permissionLevels));
+        allPermissionLevels = new ArrayList<>(Arrays.asList(permissionLevels));
 
         return (ArrayList<PermissionLevel>) allPermissionLevels;
     }
@@ -99,7 +102,7 @@ public class RESTService {
         List<NameValuePair> arguments = new ArrayList<>(3);
         arguments.add(new BasicNameValuePair("firstname", u.getFirstname()));
         arguments.add(new BasicNameValuePair("lastname", u.getLastname()));
-        arguments.add(new BasicNameValuePair("departmentName", u.getDepartmentName()));
+        arguments.add(new BasicNameValuePair("departmentName", u.getDepartment()));
         arguments.add(new BasicNameValuePair("dateOfBirth", u.getDate_of_birth()));
         arguments.add(new BasicNameValuePair("permissionLevelID", String.valueOf(u.getPermissionLevel())));
         arguments.add(new BasicNameValuePair("password", u.getPassword()));
@@ -109,7 +112,7 @@ public class RESTService {
             HttpResponse response = client.execute(post);
 
             // Print out the response message
-            System.out.println("response from create user: "  + EntityUtils.toString(response.getEntity()));
+            System.out.println("response from create user: " + EntityUtils.toString(response.getEntity()));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -137,4 +140,63 @@ public class RESTService {
         connection.disconnect();
         return sb.toString();
     }
+
+    public String UpdateUser(User u) {
+        String ur = RESTUrl + "updateUser";
+
+        HttpClient client = HttpClientBuilder.create().build();
+        HttpPost post = new HttpPost(ur);
+
+        // Create some NameValuePair for HttpPost parameters
+        List<NameValuePair> arguments = new ArrayList<>(3);
+        arguments.add(new BasicNameValuePair("id", String.valueOf(u.getId())));
+        arguments.add(new BasicNameValuePair("firstname", u.getFirstname()));
+        arguments.add(new BasicNameValuePair("lastname", u.getLastname()));
+        arguments.add(new BasicNameValuePair("departmentName", u.getDepartment()));
+        arguments.add(new BasicNameValuePair("dateOfBirth", u.getDate_of_birth()));
+        arguments.add(new BasicNameValuePair("permissionLevelID", String.valueOf(u.getPermissionLevel())));
+        arguments.add(new BasicNameValuePair("password", u.getPassword()));
+
+        try {
+            post.setEntity(new UrlEncodedFormEntity(arguments));
+            HttpResponse response = client.execute(post);
+
+            // Print out the response message
+            System.out.println("response from update user: " + EntityUtils.toString(response.getEntity()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+    public boolean LogIn(String username, String password) {
+        String ur = RESTUrl + "login";
+
+        HttpClient client = HttpClientBuilder.create().build();
+        HttpPost post = new HttpPost(ur);
+
+        // Create some NameValuePair for HttpPost parameters
+        List<NameValuePair> arguments = new ArrayList<>(3);
+        arguments.add(new BasicNameValuePair("username", username));
+        arguments.add(new BasicNameValuePair("password", password));
+
+        try {
+            post.setEntity(new UrlEncodedFormEntity(arguments));
+            HttpResponse response = client.execute(post);
+
+            // Print out the response message
+            String ok = EntityUtils.toString(response.getEntity());
+            if (ok.contains("true"))
+                return true;
+            else
+                return false;
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        return false;
+    }
+
 }
